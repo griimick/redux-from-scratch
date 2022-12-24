@@ -1,19 +1,18 @@
-export var ActionTypes = {
+const ActionTypes = {
   INIT: '@@redux/INIT'  // an action dispatched when reducer is initialised
 };
 
-export default function creatStore(reducer, initialState) {
+function createStore(reducer, initialState) {
+	if (typeof reducer !== 'function') {
+		throw new Error('Expected the reducer to be a function.');
+	}
 
 	let currentReducer = reducer;
 	let currentState = initialState;
-	let listeners = {};
+	let listeners = [];
 
 	function getState() {
 		return currentState;
-	}
-
-	function getReducer() {
-		return currentReducer;
 	}
 
 	function replaceReducer(newReducer) {
@@ -49,7 +48,12 @@ export default function creatStore(reducer, initialState) {
 		dispatch,
 		subscribe,
 		getState,
-		getReducer,
 		replaceReducer,
 	};
 }
+
+module.exports = {
+	ActionTypes,
+	createStore,
+};
+
