@@ -3,16 +3,16 @@ For educational purpose
 
 [How Redux Toolkit Is Different Than the Redux Core](https://redux.js.org/introduction/why-rtk-is-redux-today#how-redux-toolkit-is-different-than-the-redux-core)
 
-The first thing to ask is, "what is Redux?"
-
-Redux is really:
-
-A single store containing "global" state
+> The first thing to ask is, "what is Redux?"
+>
+> Redux is really:
+>
+> A single store containing "global" state
 Dispatching plain object actions to the store when something happens in the app
 Pure reducer functions looking at those actions and returning immutably updated state
 While it's not required, your Redux code also normally includes:
-
-Action creators that generate those action objects
+>
+> Action creators that generate those action objects
 Middleware to enable side effects
 Thunk functions that contain sync or async logic with side effects
 Normalized state to enable looking up items by ID
