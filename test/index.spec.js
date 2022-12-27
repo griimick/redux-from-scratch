@@ -1,8 +1,9 @@
 const { createStore } = require('..');
-const { todosReducer, unknownAction, addTodo } = require('./helpers');
+const { todosReducer, todosReverseReducer, unknownAction, addTodo } = require('./helpers');
 
 const reducers = {
 	todos: todosReducer,
+	todosReverse: todosReverseReducer,
 };
 
 describe('createStore', () => {
