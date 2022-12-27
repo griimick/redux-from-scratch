@@ -1,6 +1,15 @@
 # redux-from-scratch
 For educational purpose
 
+
+```js
+// tldr
+dispatch(action) {
+  state = reducer(state, action);
+  subscribers.forEach(s => s());
+}
+```
+
 [How Redux Toolkit Is Different Than the Redux Core](https://redux.js.org/introduction/why-rtk-is-redux-today#how-redux-toolkit-is-different-than-the-redux-core)
 
 > The first thing to ask is, "what is Redux?"
