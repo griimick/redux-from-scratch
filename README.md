@@ -1,6 +1,5 @@
 # redux-from-scratch
-For educational purpose
-
+For educational purpose (uses CommonJS)
 
 ```js
 // tldr
