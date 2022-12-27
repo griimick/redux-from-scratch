@@ -1,9 +1,19 @@
 const { createStore } = require('..');
-const { todosReducer, todosReverseReducer, unknownAction, addTodo } = require('./helpers');
+const {
+	addTodo,
+	dispatchInMiddle,
+	getStateInMiddle,
+	subscribeInMiddle,
+	unsubscribeInMiddle,
+	throwError,
+	unknownAction,
+	reducers : red,
+} = require('./helpers');
 
 const reducers = {
-	todos: todosReducer,
-	todosReverse: todosReverseReducer,
+	...red,
+	todos: red.todosReducer,
+	todosReverse: red.todosReverseReducer,
 };
 
 describe('createStore', () => {
@@ -441,7 +451,7 @@ describe('createStore', () => {
 
 		expect(() =>
 			store.dispatch(getStateInMiddle(store.getState.bind(store)))
-		).toThrow(/You may not call store.getState()/)
+		).toThrow(/Cannot call getState/)
 
 		expect(() => store.dispatch(getStateInMiddle(() => {}))).not.toThrow()
 	})
@@ -451,7 +461,7 @@ describe('createStore', () => {
 
 		expect(() =>
 			store.dispatch(subscribeInMiddle(store.subscribe.bind(store, () => {})))
-		).toThrow(/You may not call store.subscribe()/)
+		).toThrow(/Cannot subscribe/);
 
 		expect(() => store.dispatch(subscribeInMiddle(() => {}))).not.toThrow()
 	})
@@ -462,7 +472,7 @@ describe('createStore', () => {
 
 		expect(() =>
 			store.dispatch(unsubscribeInMiddle(unsubscribe.bind(store)))
-		).toThrow(/You may not unsubscribe from a store/)
+		).toThrow(/Cannot unsubscribe/)
 
 		expect(() => store.dispatch(unsubscribeInMiddle(() => {}))).not.toThrow()
 	})
@@ -478,39 +488,6 @@ describe('createStore', () => {
 		const store = createStore(reducers.todos)
 		// @ts-expect-error
 		expect(() => store.dispatch({})).toThrow(
-			/Actions may not have an undefined "type" property/
-		)
-	})
-
-	it('throws an error that correctly describes the type of item dispatched', () => {
-		const store = createStore(reducers.todos)
-		// @ts-ignore
-		expect(() => store.dispatch(Promise.resolve(42))).toThrow(
-			/the actual type was: 'Promise'/
-		)
-
-		// @ts-ignore
-		expect(() => store.dispatch(() => {})).toThrow(
-			/the actual type was: 'function'/
-		)
-
-		// @ts-ignore
-		expect(() => store.dispatch(new Date())).toThrow(
-			/the actual type was: 'date'/
-		)
-
-		// @ts-ignore
-		expect(() => store.dispatch(null)).toThrow(/the actual type was: 'null'/)
-
-		// @ts-ignore
-		expect(() => store.dispatch(undefined)).toThrow(
-			/the actual type was: 'undefined'/
-		)
-	})
-
-	it('throws if action type is undefined', () => {
-		const store = createStore(reducers.todos)
-		expect(() => store.dispatch({ type: undefined })).toThrow(
 			/Actions may not have an undefined "type" property/
 		)
 	})
