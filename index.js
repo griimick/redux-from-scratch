@@ -1,5 +1,4 @@
 const ActionTypes = {
-
   INIT: '@@redux/INIT'  // an action dispatched when reducer is initialised
 };
 
